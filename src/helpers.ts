@@ -1,13 +1,16 @@
 import { Application } from "@mainsail/kernel";
+import { Contracts } from "@mainsail/contracts";
 import { Config } from "./types.js";
 import { EvmCallBuilder } from "@mainsail/crypto-transaction-evm-call";
 
-type TransferOptions = {
+type TxOptions = {
     passphrase: string;
     to: string;
-    amount: string;
+    amount?: string;
     nonce: number;
     gasPrice: number;
+    payload?: string;
+    gasLimit?: number;
 };
 
 export class Helper {
@@ -16,17 +19,17 @@ export class Helper {
         private config: Config,
     ) {}
 
-    async makeTransfer(transferOptions: TransferOptions): Promise<any> {
+    async makeTx(options: TxOptions): Promise<Contracts.Crypto.Transaction> {
         const signed = await this.app
             .resolve(EvmCallBuilder)
-            .gasPrice(transferOptions.gasPrice)
+            .gasPrice(options.gasPrice)
             .network(this.config.crypto.network.pubKeyHash)
-            .gasLimit(21000)
-            .nonce(transferOptions.nonce.toString())
-            .recipientAddress(transferOptions.to)
-            .value(transferOptions.amount)
-            .payload("")
-            .sign(transferOptions.passphrase);
+            .gasLimit(options.gasLimit ?? 21000)
+            .nonce(options.nonce.toString())
+            .recipientAddress(options.to)
+            .value(options.amount ?? "0")
+            .payload(options.payload ?? "")
+            .sign(options.passphrase);
 
         return signed.build();
     }

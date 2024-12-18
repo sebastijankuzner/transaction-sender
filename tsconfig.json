@@ -17,7 +17,7 @@
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": false,
         "noImplicitReturns": true,
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "noUnusedParameters": false,
         "pretty": true,
         "resolveJsonModule": true,
@@ -28,6 +28,7 @@
         "target": "es2021",
         "typeRoots": ["reflect-metadata", "node_modules/@types"],
         "useUnknownInCatchVariables": false,
+
     },
     "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
 }
