@@ -13,6 +13,15 @@ type TxOptions = {
     gasLimit?: number;
 };
 
+type DeployOptions = {
+    passphrase: string;
+    amount?: string;
+    nonce: number;
+    gasPrice: number;
+    payload?: string;
+    gasLimit?: number;
+};
+
 export class Helper {
     constructor(
         private app: Application,
@@ -27,6 +36,20 @@ export class Helper {
             .gasLimit(options.gasLimit ?? 21000)
             .nonce(options.nonce.toString())
             .recipientAddress(options.to)
+            .value(options.amount ?? "0")
+            .payload(options.payload ?? "")
+            .sign(options.passphrase);
+
+        return signed.build();
+    }
+
+    async makeDeploy(options: DeployOptions): Promise<Contracts.Crypto.Transaction> {
+        const signed = await this.app
+            .resolve(EvmCallBuilder)
+            .gasPrice(options.gasPrice)
+            .network(this.config.crypto.network.pubKeyHash)
+            .gasLimit(options.gasLimit ?? 21000)
+            .nonce(options.nonce.toString())
             .value(options.amount ?? "0")
             .payload(options.payload ?? "")
             .sign(options.passphrase);

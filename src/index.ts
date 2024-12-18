@@ -56,18 +56,17 @@ const deployContracts = async () => {
     console.log("----------D E P L O Y-----------");
     console.log("--------------------------------");
 
-    const ERC20Address = getContractAddress({
-        from: genesisAddress as any,
-        nonce: BigInt(genesisNonce),
-    });
-
-    const deployERC20 = await helper.makeTx({
+    const deployERC20 = await helper.makeDeploy({
         passphrase: GENESIS_PASSPHRASE,
-        to: genesisAddress,
         nonce: genesisNonce++,
         gasPrice: GAS_PRICE,
         payload: DARK20.bytecode,
-        gasLimit: 1000000,
+        gasLimit: 2000000,
+    });
+
+    const ERC20Address = getContractAddress({
+        from: deployERC20.data.senderAddress as any,
+        nonce: deployERC20.data.nonce.toBigInt(),
     });
 
     console.log(`DEPLOY ERC20 to address ${ERC20Address} should PASS. TX ${deployERC20.id}`);
