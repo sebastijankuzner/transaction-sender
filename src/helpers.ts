@@ -21,7 +21,7 @@ export class Helper {
             .resolve(EvmCallBuilder)
             .gasPrice(transferOptions.gasPrice)
             .network(this.config.crypto.network.pubKeyHash)
-            .gasLimit(21001)
+            .gasLimit(21000)
             .nonce(transferOptions.nonce.toString())
             .recipientAddress(transferOptions.to)
             .value(transferOptions.amount)

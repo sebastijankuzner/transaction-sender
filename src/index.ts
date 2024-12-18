@@ -2,6 +2,7 @@ import { makeApplication } from "./boot.js";
 import { loadConfig } from "./loader.js";
 import * as Client from "./client.js";
 import { Contracts, Identifiers } from "@mainsail/contracts";
+import { generateMnemonic } from "bip39";
 import { Application } from "@mainsail/kernel";
 import { Helper } from "./helpers.js";
 import { Peer } from "./types.js";
@@ -17,6 +18,7 @@ let validators = [];
 let app!: Application;
 let helper!: Helper;
 let peer!: Peer;
+let addressFactory!: Contracts.Crypto.AddressFactory;
 
 const main = async () => {
     await init();
@@ -30,7 +32,7 @@ const init = async () => {
     console.log(`Interacting with peer: ${peer.apiEvmUrl}`);
 
     app = await makeApplication(config);
-    const addressFactory = app.getTagged<Contracts.Crypto.AddressFactory>(
+    addressFactory = app.getTagged<Contracts.Crypto.AddressFactory>(
         Identifiers.Cryptography.Identity.Address.Factory,
         "type",
         "wallet",
@@ -74,6 +76,18 @@ const runTransfers = async () => {
 
     console.log(`Sending to hot wallet ${hotWallet} should PASS. TX ${transferToHotWallet.id}`);
     await Client.postTransaction(peer, transferToHotWallet);
+
+    const coldWallet = await addressFactory.fromMnemonic(generateMnemonic(256));
+    const transferToColdWallet = await helper.makeTransfer({
+        passphrase: GENESIS_PASSPHRASE,
+        to: hotWallet,
+        amount: "1",
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+    });
+
+    console.log(`Sending to cold wallet ${coldWallet} should PASS. TX ${transferToColdWallet.id}`);
+    await Client.postTransaction(peer, transferToColdWallet);
 };
 
 main();

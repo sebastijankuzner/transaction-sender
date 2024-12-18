@@ -8357,7 +8357,7 @@ snapshots:
       buffer: 6.0.3
       chalk: 4.1.2
       cli-highlight: 2.1.11
-      dayjs: 1.11.10
+      dayjs: 1.11.13
       debug: 4.4.0
       dotenv: 16.4.7
       glob: 10.4.5
