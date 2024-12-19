@@ -7,6 +7,7 @@ import { Application } from "@mainsail/kernel";
 import { Helper } from "./helpers.js";
 import { Peer } from "./types.js";
 import DARK20 from "./builds/DARK20.json" with { type: "json" };
+import AllowPayment from "./builds/AllowPayment.json" with { type: "json" };
 import { getContractAddress } from "viem";
 
 const GAS_PRICE = 1;
@@ -71,6 +72,22 @@ const deployContracts = async () => {
 
     console.log(`DEPLOY ERC20 to address ${ERC20Address} should PASS. TX ${deployERC20.id}`);
     await Client.postTransaction(peer, deployERC20);
+
+    const deployAllowPayment = await helper.makeDeploy({
+        passphrase: GENESIS_PASSPHRASE,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: AllowPayment.bytecode,
+        gasLimit: 2000000,
+    });
+
+    const allowPaymentAddress = getContractAddress({
+        from: deployAllowPayment.data.senderAddress as any,
+        nonce: deployAllowPayment.data.nonce.toBigInt(),
+    });
+
+    console.log(`DEPLOY AllowPayment to address ${allowPaymentAddress} should PASS. TX ${deployAllowPayment.id}`);
+    await Client.postTransaction(peer, deployAllowPayment);
 };
 
 const runTransfers = async () => {
