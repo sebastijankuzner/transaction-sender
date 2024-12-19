@@ -36,7 +36,6 @@ const main = async () => {
     await init();
     // await deployContracts();
     // await runTransfers();
-
     await runUsernames();
 };
 
@@ -256,6 +255,23 @@ const runUsernames = async () => {
         `Calling registerUsername to Usernames contract with: "${username}". TX should PASS. TX ${validUsername.id}`,
     );
     await Client.postTransaction(peer, validUsername);
+
+    const takenUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "registerUsername",
+            args: [username],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling registerUsername to Usernames contract with: "${username}". TX should REVERT. TX ${takenUsername.id}`,
+    );
+    await Client.postTransaction(peer, takenUsername);
 };
 
 main();
