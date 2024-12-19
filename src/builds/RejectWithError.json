@@ -1,0 +1,75 @@
+{
+    "abi": [
+        { "type": "fallback", "stateMutability": "payable" },
+        { "type": "receive", "stateMutability": "payable" },
+        { "type": "function", "name": "testTransact", "inputs": [], "outputs": [], "stateMutability": "nonpayable" },
+        { "type": "function", "name": "testView", "inputs": [], "outputs": [], "stateMutability": "pure" },
+        { "type": "error", "name": "FallbackError", "inputs": [] },
+        { "type": "error", "name": "ReceiveError", "inputs": [] },
+        { "type": "error", "name": "TransactError", "inputs": [] },
+        { "type": "error", "name": "ViewError", "inputs": [] }
+    ],
+    "bytecode": {
+        "object": "0x60806040525f5f553480156011575f5ffd5b5061011e8061001f5f395ff3fe6080604052600436106028575f3560e01c80634dec9b5714605e578063a3c1131c146071576045565b36604557604051635a4846ad60e01b815260040160405180910390fd5b60405163067d529960e11b815260040160405180910390fd5b3480156068575f5ffd5b50606f6082565b005b348015607b575f5ffd5b50606f609b565b60405163e957102160e01b815260040160405180910390fd5b5f8054908060a78360c5565b91905055506040516339a1f83360e01b815260040160405180910390fd5b5f6001820160e157634e487b7160e01b5f52601160045260245ffd5b506001019056fea26469706673582212206574db7cb3f28d7c30ba8ef49831e21e360eb560661d578e07c71b96754bfc6b64736f6c634300081b0033",
+        "sourceMap": "81:473:0:-:0;;;240:1;216:25;;81:473;;;;;;;;;;;;;;;;",
+        "linkReferences": {}
+    },
+    "deployedBytecode": {
+        "object": "0x6080604052600436106028575f3560e01c80634dec9b5714605e578063a3c1131c146071576045565b36604557604051635a4846ad60e01b815260040160405180910390fd5b60405163067d529960e11b815260040160405180910390fd5b3480156068575f5ffd5b50606f6082565b005b348015607b575f5ffd5b50606f609b565b60405163e957102160e01b815260040160405180910390fd5b5f8054908060a78360c5565b91905055506040516339a1f83360e01b815260040160405180910390fd5b5f6001820160e157634e487b7160e01b5f52601160045260245ffd5b506001019056fea26469706673582212206574db7cb3f28d7c30ba8ef49831e21e360eb560661d578e07c71b96754bfc6b64736f6c634300081b0033",
+        "sourceMap": "81:473:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;458:14;;-1:-1:-1;;;458:14:0;;;;;;;;;;;81:473;530:15;;-1:-1:-1;;;530:15:0;;;;;;;;;;;248:67;;;;;;;;;;;;;:::i;:::-;;321:87;;;;;;;;;;;;;:::i;248:67::-;297:11;;-1:-1:-1;;;297:11:0;;;;;;;;;;;321:87;362:5;:7;;;:5;:7;;;:::i;:::-;;;;;;386:15;;-1:-1:-1;;;386:15:0;;;;;;;;;;;14:232:2;53:3;74:17;;;71:140;;133:10;128:3;124:20;121:1;114:31;168:4;165:1;158:15;196:4;193:1;186:15;71:140;-1:-1:-1;238:1:2;227:13;;14:232::o",
+        "linkReferences": {}
+    },
+    "methodIdentifiers": { "testTransact()": "a3c1131c", "testView()": "4dec9b57" },
+    "rawMetadata": "{\"compiler\":{\"version\":\"0.8.27+commit.40a35a09\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"FallbackError\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ReceiveError\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"TransactError\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ViewError\",\"type\":\"error\"},{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[],\"name\":\"testTransact\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"testView\",\"outputs\":[],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/multi-payment/RejectWithError.sol\":\"RejectWithError\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@contracts/=src/\",\":@forge-std/=lib/forge-std/src/\",\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/openzeppelin-contracts-upgradeable/lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":halmos-cheatcodes/=lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/\",\":openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/\",\":solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/\"]},\"sources\":{\"src/multi-payment/RejectWithError.sol\":{\"keccak256\":\"0x060038b12123a91424653291e1f128162631638827aa098d3e9dd610c185e75a\",\"license\":\"GNU GENERAL PUBLIC LICENSE\",\"urls\":[\"bzz-raw://e051651b4ca3c6d2e4b6b8b700e4673cff24e22ab363a9be31de751ee52298e3\",\"dweb:/ipfs/QmUhUiuanxcmAjoreSGK5AFFtwmT4whe9tZtHaPv1wYtrp\"]}},\"version\":1}",
+    "metadata": {
+        "compiler": { "version": "0.8.27+commit.40a35a09" },
+        "language": "Solidity",
+        "output": {
+            "abi": [
+                { "inputs": [], "type": "error", "name": "FallbackError" },
+                { "inputs": [], "type": "error", "name": "ReceiveError" },
+                { "inputs": [], "type": "error", "name": "TransactError" },
+                { "inputs": [], "type": "error", "name": "ViewError" },
+                { "inputs": [], "stateMutability": "payable", "type": "fallback" },
+                { "inputs": [], "stateMutability": "nonpayable", "type": "function", "name": "testTransact" },
+                { "inputs": [], "stateMutability": "pure", "type": "function", "name": "testView" },
+                { "inputs": [], "stateMutability": "payable", "type": "receive" }
+            ],
+            "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+            "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+        },
+        "settings": {
+            "remappings": [
+                "@contracts/=src/",
+                "@forge-std/=lib/forge-std/src/",
+                "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+                "@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
+                "ds-test/=lib/openzeppelin-contracts-upgradeable/lib/forge-std/lib/ds-test/src/",
+                "erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+                "forge-std/=lib/forge-std/src/",
+                "halmos-cheatcodes/=lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/",
+                "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+                "openzeppelin-contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/",
+                "openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/",
+                "solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/"
+            ],
+            "optimizer": { "enabled": true, "runs": 200 },
+            "metadata": { "bytecodeHash": "ipfs" },
+            "compilationTarget": { "src/multi-payment/RejectWithError.sol": "RejectWithError" },
+            "evmVersion": "shanghai",
+            "libraries": {}
+        },
+        "sources": {
+            "src/multi-payment/RejectWithError.sol": {
+                "keccak256": "0x060038b12123a91424653291e1f128162631638827aa098d3e9dd610c185e75a",
+                "urls": [
+                    "bzz-raw://e051651b4ca3c6d2e4b6b8b700e4673cff24e22ab363a9be31de751ee52298e3",
+                    "dweb:/ipfs/QmUhUiuanxcmAjoreSGK5AFFtwmT4whe9tZtHaPv1wYtrp"
+                ],
+                "license": "GNU GENERAL PUBLIC LICENSE"
+            }
+        },
+        "version": 1
+    },
+    "id": 0
+}

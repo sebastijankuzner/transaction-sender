@@ -1,0 +1,127 @@
+{
+    "abi": [
+        { "type": "fallback", "stateMutability": "payable" },
+        { "type": "receive", "stateMutability": "payable" },
+        {
+            "type": "function",
+            "name": "balance",
+            "inputs": [],
+            "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+            "stateMutability": "view"
+        },
+        {
+            "type": "function",
+            "name": "fallbacks",
+            "inputs": [],
+            "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+            "stateMutability": "view"
+        },
+        { "type": "function", "name": "testTransact", "inputs": [], "outputs": [], "stateMutability": "nonpayable" },
+        {
+            "type": "function",
+            "name": "testView",
+            "inputs": [],
+            "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
+            "stateMutability": "pure"
+        },
+        {
+            "type": "function",
+            "name": "value",
+            "inputs": [],
+            "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+            "stateMutability": "view"
+        }
+    ],
+    "bytecode": {
+        "object": "0x60806040525f5f555f6001555f6002553480156019575f5ffd5b506101f4806100275f395ff3fe60806040526004361061004d575f3560e01c80633fa4f245146100805780634dec9b57146100a7578063a3c1131c146100d9578063b69ef8a8146100ef578063c78052c6146101045761006b565b3661006b573460025f8282546100639190610142565b925050819055005b60018054905f61007a8361015b565b91905055005b34801561008b575f5ffd5b506100945f5481565b6040519081526020015b60405180910390f35b3480156100b2575f5ffd5b5060408051808201825260048152637669657760e01b6020820152905161009e9190610173565b3480156100e4575f5ffd5b506100ed610119565b005b3480156100fa575f5ffd5b5061009460025481565b34801561010f575f5ffd5b5061009460015481565b5f805490806101278361015b565b9190505550565b634e487b7160e01b5f52601160045260245ffd5b808201808211156101555761015561012e565b92915050565b5f6001820161016c5761016c61012e565b5060010190565b602081525f82518060208401525f5b8181101561019f5760208186018101516040868401015201610182565b505f604082850101526040601f19601f8301168401019150509291505056fea26469706673582212201efc6f15d62b180376dff43067933b039bf0c95afb17035f315e505ea5491c2164736f6c634300081b0033",
+        "sourceMap": "81:406:0:-:0;;;132:1;109:24;;166:1;139:28;;198:1;173:26;;81:406;;;;;;;;;;;;;;;;",
+        "linkReferences": {}
+    },
+    "deployedBytecode": {
+        "object": "0x60806040526004361061004d575f3560e01c80633fa4f245146100805780634dec9b57146100a7578063a3c1131c146100d9578063b69ef8a8146100ef578063c78052c6146101045761006b565b3661006b573460025f8282546100639190610142565b925050819055005b60018054905f61007a8361015b565b91905055005b34801561008b575f5ffd5b506100945f5481565b6040519081526020015b60405180910390f35b3480156100b2575f5ffd5b5060408051808201825260048152637669657760e01b6020820152905161009e9190610173565b3480156100e4575f5ffd5b506100ed610119565b005b3480156100fa575f5ffd5b5061009460025481565b34801561010f575f5ffd5b5061009460015481565b5f805490806101278361015b565b9190505550565b634e487b7160e01b5f52601160045260245ffd5b808201808211156101555761015561012e565b92915050565b5f6001820161016c5761016c61012e565b5060010190565b602081525f82518060208401525f5b8181101561019f5760208186018101516040868401015201610182565b505f604082850101526040601f19601f8301168401019150509291505056fea26469706673582212201efc6f15d62b180376dff43067933b039bf0c95afb17035f315e505ea5491c2164736f6c634300081b0033",
+        "sourceMap": "81:406:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;407:9;396:7;;:20;;;;;;;:::i;:::-;;;;;;;;81:406;467:9;:11;;;:9;:11;;;:::i;:::-;;;;;;109:24;;;;;;;;;;;;;;;;;;;562:25:1;;;550:2;535:18;109:24:0;;;;;;;;206:86;;;;;;;;;;-1:-1:-1;272:13:0;;;;;;;;;;;-1:-1:-1;;;272:13:0;;;;206:86;;;;272:13;206:86;:::i;298:55::-;;;;;;;;;;;;;:::i;:::-;;173:26;;;;;;;;;;;;;;;;139:28;;;;;;;;;;;;;;;;298:55;339:5;:7;;;:5;:7;;;:::i;:::-;;;;;;298:55::o;14:127:1:-;75:10;70:3;66:20;63:1;56:31;106:4;103:1;96:15;130:4;127:1;120:15;146:125;211:9;;;232:10;;;229:36;;;245:18;;:::i;:::-;146:125;;;;:::o;276:135::-;315:3;336:17;;;333:43;;356:18;;:::i;:::-;-1:-1:-1;403:1:1;392:13;;276:135::o;598:527::-;747:2;736:9;729:21;710:4;779:6;773:13;822:6;817:2;806:9;802:18;795:34;847:1;857:140;871:6;868:1;865:13;857:140;;;982:2;966:14;;;962:23;;956:30;951:2;932:17;;;928:26;921:66;886:10;857:140;;;861:3;1046:1;1041:2;1032:6;1021:9;1017:22;1013:31;1006:42;1116:2;1109;1105:7;1100:2;1092:6;1088:15;1084:29;1073:9;1069:45;1065:54;1057:62;;;598:527;;;;:::o",
+        "linkReferences": {}
+    },
+    "methodIdentifiers": {
+        "balance()": "b69ef8a8",
+        "fallbacks()": "c78052c6",
+        "testTransact()": "a3c1131c",
+        "testView()": "4dec9b57",
+        "value()": "3fa4f245"
+    },
+    "rawMetadata": "{\"compiler\":{\"version\":\"0.8.27+commit.40a35a09\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"inputs\":[],\"name\":\"balance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"fallbacks\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"testTransact\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"testView\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"value\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/multi-payment/AllowPaymnet.sol\":\"AllowPayment\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@contracts/=src/\",\":@forge-std/=lib/forge-std/src/\",\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/openzeppelin-contracts-upgradeable/lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":halmos-cheatcodes/=lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/\",\":openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/\",\":solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/\"]},\"sources\":{\"src/multi-payment/AllowPaymnet.sol\":{\"keccak256\":\"0x1cdf8d622acf924b94227d8369cf3716cd1bb256f1f4841fea7b03e285f2186c\",\"license\":\"GNU GENERAL PUBLIC LICENSE\",\"urls\":[\"bzz-raw://da77ca411cedb7fe6443eaec0b9c84dd57142cd2c96cc8951dc0de21ba01025f\",\"dweb:/ipfs/QmV4gRXc1AnhuvPdD3JuPH3uWERJLvGHCE4JFvQs3exPru\"]}},\"version\":1}",
+    "metadata": {
+        "compiler": { "version": "0.8.27+commit.40a35a09" },
+        "language": "Solidity",
+        "output": {
+            "abi": [
+                { "inputs": [], "stateMutability": "payable", "type": "fallback" },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "balance",
+                    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "fallbacks",
+                    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+                },
+                { "inputs": [], "stateMutability": "nonpayable", "type": "function", "name": "testTransact" },
+                {
+                    "inputs": [],
+                    "stateMutability": "pure",
+                    "type": "function",
+                    "name": "testView",
+                    "outputs": [{ "internalType": "string", "name": "", "type": "string" }]
+                },
+                {
+                    "inputs": [],
+                    "stateMutability": "view",
+                    "type": "function",
+                    "name": "value",
+                    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+                },
+                { "inputs": [], "stateMutability": "payable", "type": "receive" }
+            ],
+            "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+            "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+        },
+        "settings": {
+            "remappings": [
+                "@contracts/=src/",
+                "@forge-std/=lib/forge-std/src/",
+                "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+                "@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
+                "ds-test/=lib/openzeppelin-contracts-upgradeable/lib/forge-std/lib/ds-test/src/",
+                "erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+                "forge-std/=lib/forge-std/src/",
+                "halmos-cheatcodes/=lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/",
+                "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+                "openzeppelin-contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/",
+                "openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/",
+                "solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/"
+            ],
+            "optimizer": { "enabled": true, "runs": 200 },
+            "metadata": { "bytecodeHash": "ipfs" },
+            "compilationTarget": { "src/multi-payment/AllowPaymnet.sol": "AllowPayment" },
+            "evmVersion": "shanghai",
+            "libraries": {}
+        },
+        "sources": {
+            "src/multi-payment/AllowPaymnet.sol": {
+                "keccak256": "0x1cdf8d622acf924b94227d8369cf3716cd1bb256f1f4841fea7b03e285f2186c",
+                "urls": [
+                    "bzz-raw://da77ca411cedb7fe6443eaec0b9c84dd57142cd2c96cc8951dc0de21ba01025f",
+                    "dweb:/ipfs/QmV4gRXc1AnhuvPdD3JuPH3uWERJLvGHCE4JFvQs3exPru"
+                ],
+                "license": "GNU GENERAL PUBLIC LICENSE"
+            }
+        },
+        "version": 1
+    },
+    "id": 0
+}
