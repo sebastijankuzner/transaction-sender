@@ -2,7 +2,7 @@ import { makeApplication } from "./boot.js";
 import { loadConfig } from "./loader.js";
 import * as Client from "./client.js";
 import { Contracts, Identifiers } from "@mainsail/contracts";
-import { UsernamesAbi } from "@mainsail/evm-contracts";
+import { UsernamesAbi, MultiPaymentAbi } from "@mainsail/evm-contracts";
 import { generateMnemonic } from "bip39";
 import { Application } from "@mainsail/kernel";
 import { Helper } from "./helpers.js";
@@ -31,12 +31,14 @@ let rejectWithErrorAddress!: string;
 let rejectWithMessageAddress!: string;
 
 const usernamesAddress = "0x2c1DE3b4Dbb4aDebEbB5dcECAe825bE2a9fc6eb6";
+const multiPaymentAddress = "0x83769BeEB7e5405ef0B7dc3C66C43E3a51A6d27f";
 
 const main = async () => {
     await init();
     // await deployContracts();
     // await runTransfers();
-    await runUsernames();
+    // await runUsernames();
+    await runMultiPayment();
 };
 
 const init = async () => {
@@ -302,6 +304,190 @@ const runUsernames = async () => {
 
     console.log(`Calling resignUsername to Usernames contract. TX should REVERT. TX ${secondResignUsername.id}`);
     await Client.postTransaction(peer, secondResignUsername);
+};
+
+const runMultiPayment = async () => {
+    console.log("--------------------------------");
+    console.log("------M U L T I P A Y M E N T---");
+    console.log("--------------------------------");
+
+    let amount = 0;
+    let recipients: string[] = [];
+
+    const multiPaymentTo0 = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [recipients, []],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount 0, and recipients: ${recipients}. TX should PASS. TX ${multiPaymentTo0.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentTo0);
+
+    recipients = [await addressFactory.fromMnemonic(generateMnemonic(256))];
+    const multiPaymentTo1 = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: (recipients.length * amount).toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [recipients, recipients.map(() => amount)],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients}. TX should PASS. TX ${multiPaymentTo1.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentTo1);
+
+    recipients = await Promise.all(
+        Array.from({ length: 50 }, async () => await addressFactory.fromMnemonic(generateMnemonic(256))),
+    );
+    const multiPaymentTo50 = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: (recipients.length * amount).toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [recipients, recipients.map(() => amount)],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients}. TX should PASS. TX ${multiPaymentTo50.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentTo50);
+
+    recipients = await Promise.all(
+        Array.from({ length: 100 }, async () => await addressFactory.fromMnemonic(generateMnemonic(256))),
+    );
+    const multiPaymentTo100 = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: (recipients.length * amount).toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [recipients, recipients.map(() => amount)],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients}. TX should PASS. TX ${multiPaymentTo100.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentTo100);
+
+    amount = 0;
+    const multiPaymentToSelf0 = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: amount.toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [[genesisAddress], [amount]],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, to self. TX should PASS. TX ${multiPaymentToSelf0.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentToSelf0);
+
+    amount = 1;
+    const multiPaymentToSelfWei = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: amount.toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [[genesisAddress], [amount]],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, to self. TX should PASS. TX ${multiPaymentToSelfWei.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentToSelfWei);
+
+    amount = 10 ** 9;
+    const multiPaymentToSelfGwei = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: amount.toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [[genesisAddress], [amount]],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, to self. TX should PASS. TX ${multiPaymentToSelfGwei.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentToSelfGwei);
+
+    amount = 10 ** 18;
+    const multiPaymentToSelfArk = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: amount.toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [[genesisAddress], [amount]],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, to self. TX should PASS. TX ${multiPaymentToSelfArk.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentToSelfArk);
+
+    amount = 10 * 10 ** 18;
+    const multiPaymentToSelf10KArk = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: multiPaymentAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        amount: amount.toString(),
+        payload: encodeFunctionData({
+            abi: MultiPaymentAbi.abi,
+            functionName: "pay",
+            args: [[genesisAddress], [amount]],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling pay to MultiPayment contract with amount ${amount}, to self. TX should PASS. TX ${multiPaymentToSelf10KArk.id}`,
+    );
+    await Client.postTransaction(peer, multiPaymentToSelf10KArk);
+
+    // TODO: Add 10 K, 100K, 1 m
 };
 
 main();
