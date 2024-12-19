@@ -2,7 +2,7 @@ import { makeApplication } from "./boot.js";
 import { loadConfig } from "./loader.js";
 import * as Client from "./client.js";
 import { Contracts, Identifiers } from "@mainsail/contracts";
-import { UsernamesAbi, MultiPaymentAbi } from "@mainsail/evm-contracts";
+import { UsernamesAbi, MultiPaymentAbi, ConsensusAbi } from "@mainsail/evm-contracts";
 import { generateMnemonic } from "bip39";
 import { Application } from "@mainsail/kernel";
 import { Helper } from "./helpers.js";
@@ -32,13 +32,15 @@ let rejectWithMessageAddress!: string;
 
 const usernamesAddress = "0x2c1DE3b4Dbb4aDebEbB5dcECAe825bE2a9fc6eb6";
 const multiPaymentAddress = "0x83769BeEB7e5405ef0B7dc3C66C43E3a51A6d27f";
+const consensusAddress = "0x535B3D7A252fa034Ed71F0C53ec0C6F784cB64E1";
 
 const main = async () => {
     await init();
-    // await deployContracts();
-    // await runTransfers();
-    // await runUsernames();
+    await deployContracts();
+    await runTransfers();
+    await runUsernames();
     await runMultiPayment();
+    // await runConsensus();
 };
 
 const init = async () => {
@@ -137,7 +139,7 @@ const deployContracts = async () => {
     console.log(
         `DEPLOY RejectWithMessage to address ${rejectWithMessageAddress} should PASS. TX ${deployRejectWithMessage.id}`,
     );
-    await Client.postTransaction(peer, deployRejectWithError);
+    await Client.postTransaction(peer, deployRejectWithMessage);
 };
 
 const runTransfers = async () => {
@@ -367,7 +369,7 @@ const runMultiPayment = async () => {
     });
 
     console.log(
-        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients}. TX should PASS. TX ${multiPaymentTo50.id}`,
+        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients.length} - ${recipients.slice(0, 3)}. TX should PASS. TX ${multiPaymentTo50.id}`,
     );
     await Client.postTransaction(peer, multiPaymentTo50);
 
@@ -388,7 +390,7 @@ const runMultiPayment = async () => {
     });
 
     console.log(
-        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients}. TX should PASS. TX ${multiPaymentTo100.id}`,
+        `Calling pay to MultiPayment contract with amount ${amount}, and recipients: ${recipients.length} - ${recipients.slice(0, 3)} . TX should PASS. TX ${multiPaymentTo100.id}`,
     );
     await Client.postTransaction(peer, multiPaymentTo100);
 
@@ -488,6 +490,54 @@ const runMultiPayment = async () => {
     await Client.postTransaction(peer, multiPaymentToSelf10KArk);
 
     // TODO: Add 10 K, 100K, 1 m
+};
+
+const runConsensus = async () => {
+    console.log("--------------------------------");
+    console.log("--------C O N S E N S U S-------");
+    console.log("--------------------------------");
+
+    const newValidatorPassphrase = generateMnemonic(256);
+    // const newValidatorPassphrase =
+    //     "first unit siren lemon street casino renew dwarf usage reason flower work critic correct robust scene gallery skirt rally tourist pulse they bamboo phrase";
+
+    // @ts-ignore
+    const newValidatorAddress = await addressFactory.fromMnemonic(newValidatorPassphrase);
+    let newValidatorNonce = 0;
+
+    const sendFundsToValidator = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: newValidatorAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE + 10, // Increase priority
+        amount: (10 * 10 ** 18).toString(),
+    });
+
+    console.log(`Sending funds to new validator ${newValidatorAddress}. TX should PASS. TX ${sendFundsToValidator.id}`);
+    await Client.postTransaction(peer, sendFundsToValidator);
+
+    console.log("MNEMONIC: ", newValidatorPassphrase);
+
+    console.log("Waiting for 16 seconds for funds to be available");
+    await new Promise((resolve) => setTimeout(resolve, 16000));
+
+    let blsKey = "0".repeat(48);
+    const registerValidator = await helper.makeTx({
+        passphrase: newValidatorPassphrase,
+        to: consensusAddress,
+        nonce: newValidatorNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: ConsensusAbi.abi,
+            functionName: "registerValidator",
+            args: [blsKey],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling registerValidator to MultiPayment contract with blsKey: ${blsKey}. TX should PASS. TX ${registerValidator.id}`,
+    );
+    await Client.postTransaction(peer, registerValidator);
 };
 
 main();

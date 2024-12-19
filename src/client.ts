@@ -48,6 +48,8 @@ export const postEthView = async (peer: Peer, viewParameters: EthViewParameters)
 };
 
 export const postTransaction = async (peer: Peer, transaction: Contracts.Crypto.Transaction): Promise<void> => {
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+
     try {
         const response = await http.post(`${peer.apiTxPoolUrl}/api/transactions`, {
             headers: { "Content-Type": "application/json" },
