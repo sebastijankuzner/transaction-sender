@@ -8,6 +8,7 @@ import { Helper } from "./helpers.js";
 import { Peer } from "./types.js";
 import DARK20 from "./builds/DARK20.json" with { type: "json" };
 import AllowPayment from "./builds/AllowPayment.json" with { type: "json" };
+import RejectWithError from "./builds/RejectWithError.json" with { type: "json" };
 import { getContractAddress } from "viem";
 
 const GAS_PRICE = 1;
@@ -88,6 +89,24 @@ const deployContracts = async () => {
 
     console.log(`DEPLOY AllowPayment to address ${allowPaymentAddress} should PASS. TX ${deployAllowPayment.id}`);
     await Client.postTransaction(peer, deployAllowPayment);
+
+    const deployRejectWithError = await helper.makeDeploy({
+        passphrase: GENESIS_PASSPHRASE,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: RejectWithError.bytecode,
+        gasLimit: 2000000,
+    });
+
+    const rejectWithErrorAddress = getContractAddress({
+        from: deployRejectWithError.data.senderAddress as any,
+        nonce: deployRejectWithError.data.nonce.toBigInt(),
+    });
+
+    console.log(
+        `DEPLOY RejectWithError to address ${rejectWithErrorAddress} should PASS. TX ${deployRejectWithError.id}`,
+    );
+    await Client.postTransaction(peer, deployRejectWithError);
 };
 
 const runTransfers = async () => {
