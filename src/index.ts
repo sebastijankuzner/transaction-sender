@@ -272,6 +272,36 @@ const runUsernames = async () => {
         `Calling registerUsername to Usernames contract with: "${username}". TX should REVERT. TX ${takenUsername.id}`,
     );
     await Client.postTransaction(peer, takenUsername);
+
+    const resignUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "resignUsername",
+            args: [],
+        }).slice(2),
+    });
+
+    console.log(`Calling resignUsername to Usernames contract. TX should PASS. TX ${resignUsername.id}`);
+    await Client.postTransaction(peer, resignUsername);
+
+    const secondResignUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "resignUsername",
+            args: [],
+        }).slice(2),
+    });
+
+    console.log(`Calling resignUsername to Usernames contract. TX should REVERT. TX ${secondResignUsername.id}`);
+    await Client.postTransaction(peer, secondResignUsername);
 };
 
 main();
