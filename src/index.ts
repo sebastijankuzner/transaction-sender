@@ -13,8 +13,7 @@ import RejectWithMessage from "./builds/RejectWithMessage.json" with { type: "js
 import { getContractAddress } from "viem";
 
 const GAS_PRICE = 1;
-const GENESIS_PASSPHRASE =
-    "bullet mean oxygen possible quiz body range ozone quantum elevator inspire cute inject work estate century must this defy siren aisle rich churn explain";
+let genesisPassphrase = "";
 let genesisAddress = "";
 let genesisNonce = 0;
 let validators = [];
@@ -50,14 +49,15 @@ const init = async () => {
     );
     helper = new Helper(app, config);
 
-    genesisAddress = await addressFactory.fromMnemonic(GENESIS_PASSPHRASE);
-    genesisNonce = await Client.getWalletNonce(peer, genesisAddress);
-
-    console.log(`Genesis address: ${genesisAddress} nonce: ${genesisNonce}`);
-
     validators = await Promise.all(
         config.cli.validatorPassphrases.map((passphrase) => addressFactory.fromMnemonic(passphrase)),
     );
+
+    genesisPassphrase = config.cli.validatorPassphrases[0];
+    genesisAddress = await addressFactory.fromMnemonic(genesisPassphrase);
+    genesisNonce = await Client.getWalletNonce(peer, genesisAddress);
+
+    console.log(`Genesis address: ${genesisAddress} nonce: ${genesisNonce}`);
 };
 
 const deployContracts = async () => {
@@ -66,7 +66,7 @@ const deployContracts = async () => {
     console.log("--------------------------------");
 
     const deployERC20 = await helper.makeDeploy({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         nonce: genesisNonce++,
         gasPrice: GAS_PRICE,
         payload: DARK20.bytecode,
@@ -82,7 +82,7 @@ const deployContracts = async () => {
     await Client.postTransaction(peer, deployERC20);
 
     const deployAllowPayment = await helper.makeDeploy({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         nonce: genesisNonce++,
         gasPrice: GAS_PRICE,
         payload: AllowPayment.bytecode,
@@ -98,7 +98,7 @@ const deployContracts = async () => {
     await Client.postTransaction(peer, deployAllowPayment);
 
     const deployRejectWithError = await helper.makeDeploy({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         nonce: genesisNonce++,
         gasPrice: GAS_PRICE,
         payload: RejectWithError.bytecode,
@@ -116,7 +116,7 @@ const deployContracts = async () => {
     await Client.postTransaction(peer, deployRejectWithError);
 
     const deployRejectWithMessage = await helper.makeDeploy({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         nonce: genesisNonce++,
         gasPrice: GAS_PRICE,
         payload: RejectWithMessage.bytecode,
@@ -140,7 +140,7 @@ const runTransfers = async () => {
     console.log("--------------------------------");
 
     const transferToSelf = await helper.makeTx({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         to: genesisAddress,
         amount: "1",
         nonce: genesisNonce++,
@@ -152,7 +152,7 @@ const runTransfers = async () => {
 
     const hotWallet = validators[1];
     const transferToHotWallet = await helper.makeTx({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         to: hotWallet,
         amount: "1",
         nonce: genesisNonce++,
@@ -164,7 +164,7 @@ const runTransfers = async () => {
 
     const coldWallet = await addressFactory.fromMnemonic(generateMnemonic(256));
     const transferToColdWallet = await helper.makeTx({
-        passphrase: GENESIS_PASSPHRASE,
+        passphrase: genesisPassphrase,
         to: hotWallet,
         amount: "1",
         nonce: genesisNonce++,
