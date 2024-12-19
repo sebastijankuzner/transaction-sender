@@ -2,6 +2,7 @@ import { makeApplication } from "./boot.js";
 import { loadConfig } from "./loader.js";
 import * as Client from "./client.js";
 import { Contracts, Identifiers } from "@mainsail/contracts";
+import { UsernamesAbi } from "@mainsail/evm-contracts";
 import { generateMnemonic } from "bip39";
 import { Application } from "@mainsail/kernel";
 import { Helper } from "./helpers.js";
@@ -10,7 +11,7 @@ import DARK20 from "./builds/DARK20.json" with { type: "json" };
 import AllowPayment from "./builds/AllowPayment.json" with { type: "json" };
 import RejectWithError from "./builds/RejectWithError.json" with { type: "json" };
 import RejectWithMessage from "./builds/RejectWithMessage.json" with { type: "json" };
-import { getContractAddress } from "viem";
+import { getContractAddress, encodeFunctionData } from "viem";
 
 const GAS_PRICE = 1;
 let genesisPassphrase = "";
@@ -29,10 +30,14 @@ let allowPaymentAddress!: string;
 let rejectWithErrorAddress!: string;
 let rejectWithMessageAddress!: string;
 
+const usernamesAddress = "0x2c1DE3b4Dbb4aDebEbB5dcECAe825bE2a9fc6eb6";
+
 const main = async () => {
     await init();
-    await deployContracts();
+    // await deployContracts();
     // await runTransfers();
+
+    await runUsernames();
 };
 
 const init = async () => {
@@ -173,6 +178,84 @@ const runTransfers = async () => {
 
     console.log(`Sending to cold wallet ${coldWallet} should PASS. TX ${transferToColdWallet.id}`);
     await Client.postTransaction(peer, transferToColdWallet);
+};
+
+const runUsernames = async () => {
+    console.log("--------------------------------");
+    console.log("---------U S E R N A M E--------");
+    console.log("--------------------------------");
+
+    let username = "";
+    const emptyUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "registerUsername",
+            args: [username],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling registerUsername to Usernames contract with: "${username}". TX should REVERT. TX ${emptyUsername.id}`,
+    );
+    await Client.postTransaction(peer, emptyUsername);
+
+    username = "a".repeat(25);
+    const tooLongUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "registerUsername",
+            args: [username],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling registerUsername to Usernames contract with: "${username}". TX should REVERT. TX ${tooLongUsername.id}`,
+    );
+    await Client.postTransaction(peer, tooLongUsername);
+
+    username = "inval__id";
+    const invalidUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "registerUsername",
+            args: [username],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling registerUsername to Usernames contract with: "${username}". TX should REVERT. TX ${invalidUsername.id}`,
+    );
+    await Client.postTransaction(peer, invalidUsername);
+
+    username = Array.from({ length: 15 }, () => String.fromCharCode(Math.floor(Math.random() * 26) + 97)).join("");
+    const validUsername = await helper.makeTx({
+        passphrase: genesisPassphrase,
+        to: usernamesAddress,
+        nonce: genesisNonce++,
+        gasPrice: GAS_PRICE,
+        payload: encodeFunctionData({
+            abi: UsernamesAbi.abi,
+            functionName: "registerUsername",
+            args: [username],
+        }).slice(2),
+    });
+
+    console.log(
+        `Calling registerUsername to Usernames contract with: "${username}". TX should PASS. TX ${validUsername.id}`,
+    );
+    await Client.postTransaction(peer, validUsername);
 };
 
 main();
