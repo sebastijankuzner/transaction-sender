@@ -24,6 +24,12 @@ let helper!: Helper;
 let peer!: Peer;
 let addressFactory!: Contracts.Crypto.AddressFactory;
 
+// Call deploy to fill addresses
+let ERC20Address!: string;
+let allowPaymentAddress!: string;
+let rejectWithErrorAddress!: string;
+let rejectWithMessageAddress!: string;
+
 const main = async () => {
     await init();
     await deployContracts();
@@ -67,7 +73,7 @@ const deployContracts = async () => {
         gasLimit: 2000000,
     });
 
-    const ERC20Address = getContractAddress({
+    ERC20Address = getContractAddress({
         from: deployERC20.data.senderAddress as any,
         nonce: deployERC20.data.nonce.toBigInt(),
     });
@@ -83,7 +89,7 @@ const deployContracts = async () => {
         gasLimit: 2000000,
     });
 
-    const allowPaymentAddress = getContractAddress({
+    allowPaymentAddress = getContractAddress({
         from: deployAllowPayment.data.senderAddress as any,
         nonce: deployAllowPayment.data.nonce.toBigInt(),
     });
@@ -99,7 +105,7 @@ const deployContracts = async () => {
         gasLimit: 2000000,
     });
 
-    const rejectWithErrorAddress = getContractAddress({
+    rejectWithErrorAddress = getContractAddress({
         from: deployRejectWithError.data.senderAddress as any,
         nonce: deployRejectWithError.data.nonce.toBigInt(),
     });
@@ -117,7 +123,7 @@ const deployContracts = async () => {
         gasLimit: 2000000,
     });
 
-    const rejectWithMessageAddress = getContractAddress({
+    rejectWithMessageAddress = getContractAddress({
         from: deployRejectWithError.data.senderAddress as any,
         nonce: deployRejectWithError.data.nonce.toBigInt(),
     });
